@@ -39,7 +39,7 @@ const style = StyleSheet.create({
   text: {
     color: "indigo",
     paddingVertical: 10,
-    fontFamily: "serif"
+    fontFamily: "serif",
   },
   close: {
     fontSize: 25,
