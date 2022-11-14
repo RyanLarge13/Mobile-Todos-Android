@@ -23,11 +23,9 @@ const App = () => {
     setList((prev) => [...prev, newItem]);
   };
 
-  const handleDelete = (item) => {
-    const newList = list.filter((todo) => {
-    	todo.id === item.id
-    });
-    return setList(newList);
+  const handleDelete = (id) => {
+    const newList = list.filter(todo => todo.id !== id);
+    setList(newList);
   };
 
   return (
@@ -36,7 +34,7 @@ const App = () => {
       {user ? (
         <View style={styles.fullView}>
           {list.length > 0 ? (
-            <List list={list} deleteItem={(item) => handleDelete(item)} />
+            <List list={list} deleteItem={(id) => handleDelete(id)} />
           ) : (
             <View style={styles.addATodo}>
               <Text style={styles.introText}>Add a Todo!</Text>

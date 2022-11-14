@@ -10,7 +10,7 @@ const List = ({ list, deleteItem }) => {
           <Icon
             name="close"
             style={style.close}
-            onPress={() => deleteItem(item)}
+            onPress={() => deleteItem(item.id)}
           ></Icon>
         </View>
       ))}
