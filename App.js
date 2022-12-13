@@ -1,59 +1,77 @@
+import React, { useState, useEffect } from "react";
 import { StatusBar } from "expo-status-bar";
 import { StyleSheet, Text, View, TextInput } from "react-native";
+import { useFonts } from "expo-font";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import Header from "./components/Header.jsx";
 import List from "./components/List.jsx";
 import Add from "./components/Add.jsx";
-import Signin from "./components/Signin.jsx";
-import Signup from "./components/Signup.jsx";
-import React, { useState } from "react";
-import { useFonts } from "expo-font";
 import AppLoading from "expo-app-loading";
 
 const App = () => {
   const [list, setList] = useState([]);
-  const [user, setUser] = useState(false);
-  const [signup, setSignup] = useState(false);
 
-  const handleAdd = (text) => {
+  useEffect(() => {
+    const getAllTodos = async () => {
+      try {
+        const allOfYourTodos = await AsyncStorage.getAllKeys();
+        const savedTodos = await AsyncStorage.multiGet(allOfYourTodos);
+        savedTodos.map((item) => {
+          const storedItem = {
+            id: item[0],
+            text: item[1],
+          };
+          setList((prev) => [...prev, storedItem]);
+        });
+      } catch (err) {
+        console.log(err);
+      }
+    };
+    getAllTodos();
+  }, []);
+
+  const handleAdd = async (text) => {
     if (text === "") return;
     const newItem = {
       id: Math.floor(Math.random() * 26973568076536793),
       text: text,
     };
+    await setStorage(newItem);
     setList((prev) => [...prev, newItem]);
   };
 
-  const handleDelete = (id) => {
-    const newList = list.filter(todo => todo.id !== id);
-    setList(newList);
+  const handleDelete = async (id) => {
+    try {
+      await AsyncStorage.removeItem(id);
+      const newList = list.filter((todo) => todo.id !== id);
+      setList(newList);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  const setStorage = async (todo) => {
+    try {
+      await AsyncStorage.setItem(todo.id.toString(), todo.text);
+      const savedTodo = await AsyncStorage.getItem(todo.id.toString());
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   return (
     <>
       <Header />
-      {user ? (
-        <View style={styles.fullView}>
-          {list.length > 0 ? (
-            <List list={list} deleteItem={(id) => handleDelete(id)} />
-          ) : (
-            <View style={styles.addATodo}>
-              <Text style={styles.introText}>Add a Todo!</Text>
-            </View>
-          )}
-          <Add onAdd={(text) => handleAdd(text)} />
-        </View>
-      ) : (
-        <View style={styles.fullView}>
-          {signup ? (
-            <Signup onSigninPress={(bool) => setSignup(bool)} />
-          ) : (
-            <Signin
-              onSubmit={(bool) => setUser(bool)}
-              onRegisterPress={(bool) => setSignup(bool)}
-            />
-          )}
-        </View>
-      )}
+      <View style={styles.fullView}>
+        {list.length > 0 ? (
+          <List list={list} deleteItem={(id) => handleDelete(id)} />
+        ) : (
+          <View style={styles.addATodo}>
+            <Text style={styles.introText}>Add a Todo!</Text>
+          </View>
+        )}
+        <Add onAdd={(text) => handleAdd(text)} />
+      </View>
     </>
   );
 };
