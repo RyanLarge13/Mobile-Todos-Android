@@ -33,7 +33,7 @@ const App = () => {
   const handleAdd = async (text) => {
     if (text === "") return;
     const newItem = {
-      id: Math.floor(Math.random() * 26973568076536793),
+      id: Math.floor(Math.random() * 2697356807607531156896422678855).toString(),
       text: text,
     };
     await setStorage(newItem);
@@ -52,8 +52,8 @@ const App = () => {
 
   const setStorage = async (todo) => {
     try {
-      await AsyncStorage.setItem(todo.id.toString(), todo.text);
-      const savedTodo = await AsyncStorage.getItem(todo.id.toString());
+      await AsyncStorage.setItem(todo.id, todo.text);
+      const savedTodo = await AsyncStorage.getItem(todo.id);
     } catch (err) {
       console.log(err);
     }

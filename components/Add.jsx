@@ -34,7 +34,7 @@ const Add = ({ onAdd }) => {
 
 const style = StyleSheet.create({
   add: {
-    flex: 1,
+    padding: "7%",
     backgroundColor: "#eee",
     alignItems: "center",
     justifyContent: "center",
@@ -63,7 +63,7 @@ const style = StyleSheet.create({
   },
   btnText: {
     color: "indigo",
-    fontFamily: "serif"
+    fontFamily: "serif",
   },
 });
 

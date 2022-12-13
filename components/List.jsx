@@ -1,9 +1,9 @@
-import { View, Text, StyleSheet, FlatList } from "react-native";
+import { ScrollView, View, Text, StyleSheet, FlatList } from "react-native";
 import Icon from "react-native-vector-icons/FontAwesome";
 
 const List = ({ list, deleteItem }) => {
   return (
-    <View style={style.view}>
+    <ScrollView contentContainerStyle={style.just} style={style.view}>
       {list.map((item) => (
         <View key={item.id} style={style.item}>
           <Text style={style.text}>{item.text}</Text>
@@ -14,15 +14,17 @@ const List = ({ list, deleteItem }) => {
           ></Icon>
         </View>
       ))}
-    </View>
+    </ScrollView>
   );
 };
 
 const style = StyleSheet.create({
   view: {
     flex: 3,
-    justifyContent: "center",
+  },
+  just: {
     alignItems: "center",
+    justifyContent: "center",
   },
   item: {
     width: "90%",
