@@ -12,6 +12,7 @@ const Header = () => {
 const styles = StyleSheet.create({
   container: {
     height: 80,
+    width: "100%", 
     paddingHorizontal: 15,
     paddingTop: 25,
     paddingBottom: 10,
@@ -20,12 +21,14 @@ const styles = StyleSheet.create({
     justifyContent: "flex-end",
     elevation: 20,
     borderRadius: 7.5,
+    position: "absolute",
+    top: 0,
   },
   text: {
     fontSize: 25,
     fontWeight: "600",
     color: "white",
-    fontFamily: "serif"
+    fontFamily: "serif",
   },
 });
 

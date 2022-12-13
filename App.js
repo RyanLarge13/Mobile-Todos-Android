@@ -33,7 +33,9 @@ const App = () => {
   const handleAdd = async (text) => {
     if (text === "") return;
     const newItem = {
-      id: Math.floor(Math.random() * 2697356807607531156896422678855).toString(),
+      id: Math.floor(
+        Math.random() * 2697356807607531156896422678855
+      ).toString(),
       text: text,
     };
     await setStorage(newItem);
@@ -61,6 +63,7 @@ const App = () => {
 
   return (
     <>
+    <StatusBar backgroundColor="indigo"/>
       <Header />
       <View style={styles.fullView}>
         {list.length > 0 ? (
